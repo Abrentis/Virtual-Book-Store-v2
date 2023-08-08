@@ -1,0 +1,1 @@
+fetch('https://openlibrary.org/works/OL45804W.json')
