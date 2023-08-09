@@ -75,4 +75,4 @@ var authorEl = document.getElementById("author-name");
 var isbnEl = document.getElementById("isbn");
 var criteriaEl = document.getElementById("criteria");
 
-console.log(criteriaEl.value);
+//console.log(criteriaEl.value);
