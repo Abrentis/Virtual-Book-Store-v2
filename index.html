@@ -11,13 +11,13 @@
     <title>Book-Details</title>
   </head>
   <body>
-   <section class="hero hero body is-dark container is full height">
-    <h1 title="">Welcome to virtual book search</h1>
+   <section class="section is-dark is-small">
+    <h1 class = "title is-1">Welcome to virtual book search</h1>
    </section> 
-   <section class="section">
+   <!--<section class="section">
     <div class = "container">
       <div class = "columns">
-        <div class="field><label class="label">Select Option for Search</label><p class="control"><span class="select"><select><option>Author</option><option>ISBN</option></option></select></span></p></div>
+        <div class="field><label>Select Option for Search</label><p class="control"><span class="select"><select><option>Author</option><option>ISBN</option></option></select></span></p></div>
         <div class = "column"><label>Enter Author's Name</label><input id = "author-name" type="text" class="input is-primary" placeholder="author's name" >
         </div>
         <div class = "column"><label>Enter ISBN Code</label><input id = "isbn" type="text" class="input is-primary" placeholder="isbn">
@@ -31,8 +31,38 @@
       </div>
     </div>
   </div>
-  <div class = "userInput"></div>
-       
+  <div class = "userInput"></div>-->
+  <body>
+    <section class="section is-small 
+      has-background-warning">
+      <div class = "columns">
+        <div class="control">
+          <p><b>Choose Criteria:</b></p>
+
+          <label class="radio">
+            <input type="radio" name="criteria">
+            Author
+          </label>
+          <label class="radio">
+            <input type="radio" name="criteria">
+            ISBN
+          </label>
+        </div>
+        <div class = "column"><label>Enter Author's Name</label><input id = "author-name" type="text" class="input is-primary" placeholder="author's name" >
+        </div>
+        <div class = "column"><label>Enter ISBN Code</label><input id = "isbn" type="text" class="input is-primary" placeholder="isbn">
+        </div>
+      </div>
+  
+      
+    </section>
+  
+    <section class="section is-large 
+      has-background-primary">
+      <h1 class="title">To display results</h1>
+      
+    </section>
+  </body>
    
    
     <script src="./assets/script.js"></script>
