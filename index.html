@@ -9,42 +9,50 @@
     <title>Book-Details</title>
   </head>
   <body>
-   <section class="hero hero body is-dark container">
+   <section class="hero body is-dark container">
     <h1>Welcome to virtual book search</h1>
-   </section> 
-   <div class="dropdown is-active">
-    <div class="dropdown-trigger">
-      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-        <span>Select Criteria</span>
-        <span class="icon is-small">
-          <i class="fas fa-angle-down" aria-hidden="true"></i>
-        </span>
-      </button>
-    </div>
-    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-      <div class="dropdown-content">
-        <a href="#" class="dropdown-item">
-          Author Name
-        </a>
-        <a class="dropdown-item">
-          ISBN Code
-        </a>
-        <a href="#" class="dropdown-item">
-          Other dropdown item
-        </a>
-        <a href="#" class="dropdown-item">
-          Other dropdown item
-        </a>
-        <hr class="dropdown-divider">
-        <a href="#" class="dropdown-item">
-          With a divider
-        </a>
+   </section>
+   <section id="search-parameters">
+    <form>
+      <input class="input is-focused" type="text" placeholder="Author, title, ISBN">
+    </form>
+    <div class="dropdown">
+      <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+          <span>Select Criteria</span>
+          <span class="icon is-small">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
       </div>
-    </div>
-  </div>
-       
-   
-   
-    <script src="./assets/script.js"></script>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <a href="#" class="dropdown-item">
+            Author Name
+          </a>
+          <a class="dropdown-item">
+            ISBN Code
+          </a>
+          <a href="#" class="dropdown-item">
+            Other dropdown item
+          </a>
+          <a href="#" class="dropdown-item">
+            Other dropdown item
+          </a>
+          <hr class="dropdown-divider">
+          <a href="#" class="dropdown-item">
+            With a divider
+          </a>
+        </div>
+      </div>
+  </section>
+  <section>
+    <ul>
+      
+    </ul>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="./assets/script.js"></script>
   </body>
 </html>
