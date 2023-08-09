@@ -12,26 +12,21 @@
   </head>
   <body>
    <section class="hero hero body is-dark container is full height">
-    <h1>Welcome to virtual book search</h1>
+    <h1 title="">Welcome to virtual book search</h1>
    </section> 
-   <div class="dropdown is-active">
-    <div class="dropdown-trigger">
-      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-        <span>Select Criteria</span>
-        <span class="icon is-small">
-          <i class="fas fa-angle-down" aria-hidden="true"></i>
-        </span>
-      </button>
+   <section class="section">
+    <div class = "container">
+      <div class = "columns">
+        <div class="field><label class="label">Select Option for Search</label><p class="control"><span class="select"><select><option>Author</option><option>ISBN</option></option></select></span></p></div>
+        <div class = "column"><label>Enter Author's Name</label><input id = "author-name" type="text" class="input is-primary" placeholder="author's name" >
+        </div>
+        <div class = "column"><label>Enter ISBN Code</label><input id = "isbn" type="text" class="input is-primary" placeholder="isbn">
+        </div>
+      </div>
+      <div class = "column"><p>Display records</p></div>
     </div>
-    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-      <div class="dropdown-content">
-        <a href="#" class="dropdown-item">
-          Author Name
-        </a>
-        <a class="dropdown-item">
-          ISBN Code
-        </a>
-        
+    </div>
+   </section> 
       
       </div>
     </div>
