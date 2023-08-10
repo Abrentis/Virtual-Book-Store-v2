@@ -3,6 +3,16 @@ var searchURLq = "https://openlibrary.org/search.json?q=";
 var searchURLAuthor = "https://openlibrary.org/search.json?author=";
 var searchURLTitle = "https://openlibrary.org/search.json?title=";
 localStorage.clear();
+var authorEl = document.getElementById("author-name");
+var isbnEl = document.getElementById("isbn");
+var submitEl = document.getElementById('submit');
+var authorBtnEl = document.getElementById('author-button'); 
+var authorBtnEl = document.getElementById('author-button');
+var isbnBtnEl = document.getElementById('isbn-button');
+var aResEl = document.getElementById('aRes');
+submitEl.addEventListener("click", select);
+authorBtnEl.addEventListener("click", author_det);
+isbnBtnEl.addEventListener("click", isbn_det);
 
 function search(event) {
     event.preventDefault();
@@ -92,4 +102,84 @@ function select (){
   }
 }
 
+
+function select (){
+  var selected = document.querySelector('input[name=criteria]:checked').value;
+  console.log(selected);
+  if (selected === "isbn"){
+    document.getElementById("author-name").disabled = true;
+    document.getElementById("isbn").disabled = false;
+    console.log(authorEl);
+  }
+  if (selected === "author"){
+    document.getElementById("isbn").disabled = true;
+    document.getElementById("author-name").disabled = false;
+    console.log(authorEl.value);
+  }
+}
+
+function author_det() {
+     console.log(authorEl.value);
+     var authorURL = `https://openlibrary.org/search/authors.json?q=${authorEl.value}`
+      const encodedAuthorURL = encodeURI(authorURL);
+      fetch(encodedAuthorURL)
+      .then(function (response) {
+       if (!response.ok) {
+         throw response.json();
+      }
+
+      return response.json();
+    })
+    .then(function (locRes) {
+      // write query to page so user knows what they are viewing
+      //aResEl.textContent = locRes.search.query;
+
+      console.log(locRes);
+      var workId = locRes.docs[0].key;
+      console.log(workId);
+      getWork(workId);
+      
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+}
+
+function isbn_det(){
+  console.log(isbnEl.value);
+}
+
+//j%20k%20rowling
+//"OL23919A", Toni Morrison, JK Rowling, Sam Harris, Richard Dawkins
+
+    function getWork (workID) {
+    var workURL = `https://openlibrary.org/authors/${workID}/works.json?limit=10`
+    var ratingURL = `https://openlibrary.org/works/${workID}/ratings.json`
+    fetch(workURL)
+    .then (function (response){
+      if (response.ok){
+        return response.json();
+      }
+    })  
+    .then(function (data) {
+      console.log(data); 
+      //console.log(data.entries.length);
+      for (var i=0; i<data.entries.length; i=i+1) {
+        console.log(data.entries[i].title);
+      }
+      
+    })
+    
+    /*fetch(ratingURL)
+    .then (function (response){
+      if (response.ok){
+        return response.json();
+      }
+    })  
+    .then(function (data) {
+      console.log(data);  
+    })*/
+    
+    
+  }
 
