@@ -73,6 +73,23 @@ $(document).ready(function () {
 url = "";
 var authorEl = document.getElementById("author-name");
 var isbnEl = document.getElementById("isbn");
-var criteriaEl = document.getElementById("criteria");
 
-//console.log(criteriaEl.value);
+var submitEl = document.getElementById('submit');
+
+
+submitEl.addEventListener("click", select);
+
+function select (){
+  var selected = document.querySelector('input[name=criteria]:checked').value;
+  console.log(selected);
+  if (selected === "isbn"){
+    document.getElementById("author-name").disabled = true;
+    document.getElementById("isbn").disabled = false;
+  }
+  if (selected === "author"){
+    document.getElementById("isbn").disabled = true;
+    document.getElementById("author-name").disabled = false;
+  }
+}
+
+
