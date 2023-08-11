@@ -104,6 +104,24 @@ function author_det() {
 
 function isbn_det(){
   console.log(isbnEl.value);
+  var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
+  const encodedisbnURL = encodeURI(isbnURL);
+  fetch(encodedisbnURL)
+  .then(function (response) {
+   if (!response.ok) {
+     throw response.json();
+  }
+
+  return response.json();
+})
+.then(function (data) {
+ console.log(data); 
+ console.log(data.docs[0].title);
+})
+.catch(function (error) {
+  console.error(error);
+});
+
 }
 
 //j%20k%20rowling
