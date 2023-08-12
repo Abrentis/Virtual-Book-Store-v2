@@ -195,7 +195,7 @@ fetch(localResultUrl)
    if (!response.ok) {
      throw response.json();
   }
-
+  
   return response.json();
 })
 .then(function (data) {
@@ -217,6 +217,7 @@ bookTitle.textContent = Object.values(selectObj)[1];
 isbnBtn.append(bookTitle);
 isbnFooterEl.append(isbnBtn);
 })
+
 }
 
 //j%20k%20rowling
