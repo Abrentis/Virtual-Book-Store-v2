@@ -80,26 +80,29 @@ function author_det() {
      console.log(data.results[0].book_title);
      console.log(data.results[0].url);
      console.log(data.results[0].isbn13[0]);
-     bookTitle1El.append(data.results[0].book_title);
+     bookTitle1El.append("Book Title:  " + data.results[0].book_title);
+     isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
      review1El.setAttribute('href',data.results[0].url);
      review1El.append(data.results[0].url);
-     isbn1El.append(data.results[0].isbn13[0]);
+     
 
      console.log(data.results[1].book_title);
      console.log(data.results[1].url);
      console.log(data.results[1].isbn13[0]);
-     bookTitle2El.append(data.results[1].book_title);
+     bookTitle2El.append("Book Title:  " + data.results[1].book_title);
+     isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
      review2El.setAttribute('href',data.results[1].url);
      review2El.append(data.results[1].url);
-     isbn2El.append(data.results[1].isbn13[0]);
+     
 
      console.log(data.results[2].book_title);
      console.log(data.results[2].url);
      console.log(data.results[2].isbn13[0]);
-     bookTitle3El.append(data.results[2].book_title);
+     bookTitle3El.append("Book Title:  " + data.results[2].book_title);
+     isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
      review3El.setAttribute('href',data.results[2].url);
      review3El.append(data.results[2].url);
-     isbn3El.append(data.results[2].isbn13[0]);
+    
    } 
  })
  .catch(function (error) {
