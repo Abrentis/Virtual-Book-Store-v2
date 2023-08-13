@@ -4,19 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"/>
     <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="./assets/style.css">
     <title>Book-Details</title>
   </head>
   <body>
     <section class="section is-dark is-small">
-      <h1 class = "title is-1">Welcome to virtual book search</h1>
-    </section> 
+      <div class = "columns" >
+        <p class = "column is-one-quarter"><img src= "assets/images/book_cartoon.gif"></h1>
+        <p  id = "book-search-app" class = "column is-half content is-large has-text-weight-bold">Book Search App</p>
+        <p class = "column is-one-quarter content is-small">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ipsum aut soluta debitis possimus provident. Et iure numquam est earum, autem illum id vitae culpa commodi fuga. Inventore, aspernatur perferendis!</p>
+      </div>
+     </section> 
 
     <section class="section is-small 
-      has-background-warning">
+      has-background-primary">
         <div class = "columns">
           <div class="control">
             <p><b>Choose Criteria:</b></p>
@@ -40,7 +44,7 @@
     </section>
 
   <section id="display-result" class="section is-medium 
-    has-background-primary columns">
+    has-background-warning columns">
     <div id="display-list">
       <div id = "book-title1"></div>
       <a target="_blank" id = review1></a>
@@ -57,7 +61,7 @@
     <div id="display-img"></div>
   </section>
   <section class="section is-small 
-    has-background-warning">
+    has-background-primary">
     <div id="isbn-footer">Recent searches:</div>
   </section>
 
