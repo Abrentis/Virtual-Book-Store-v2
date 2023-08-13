@@ -1,20 +1,12 @@
-var searchBar = $("form");
-var searchURLq = "https://openlibrary.org/search.json?q=";
-var searchURLAuthor = "https://openlibrary.org/search.json?author=";
-var searchURLTitle = "https://openlibrary.org/search.json?title=";
-localStorage.clear();
-
-var displayListEl = $("#display-list");
 var authorEl = document.getElementById("author-name");
 var isbnEl = document.getElementById("isbn");
 var submitEl = document.getElementById('submit');
-var authorBtnEl = document.getElementById('author-button'); 
 var authorBtnEl = document.getElementById('author-button');
 var isbnBtnEl = document.getElementById('isbn-button');
-//var aResEl = document.getElementById('aRes');
 submitEl.addEventListener("click", select);
 authorBtnEl.addEventListener("click", author_det);
 isbnBtnEl.addEventListener("click", isbn_det);
+//Variables to display results
 var displayResultEl = document.getElementById('display-result');
 var bookTitle1El = document.getElementById('book-title1');
 var review1El = document.getElementById('review1');
@@ -25,94 +17,52 @@ var isbn2El = document.getElementById('isbn2');
 var bookTitle3El = document.getElementById('book-title3');
 var review3El = document.getElementById('review3');
 var isbn3El = document.getElementById('isbn3');
+var isbnImg = document.getElementById('display-img');
 var isbnFooterEl = document.getElementById('isbn-footer');
-function search(event) {
-    event.preventDefault();
-    var input = $("input").val().trim();
-    var inputURLFormat = input.replace(/\s/g, "+");
-    var inputURL = searchURLGeneral + inputURLFormat;
-    fetch(inputURL)
-        .then(function (response) {
-            console.log(response.status);
-            console.log(response);
-            return response.json();
-        })
-        .then(function (data) {
-            for (var i = 0; i < data.docs.length; i++) {
-            localStorage.setItem("book" + i, data.docs[i].title);
-            }
-            console.log(localStorage);
-            console.log(data);
-        });
-}
-searchBar.on("submit", search);
 
-url = "";
-var authorEl = document.getElementById("author-name");
-var isbnEl = document.getElementById("isbn");
+console.log(localStorage);
 
-var submitEl = document.getElementById('submit');
-
-
-submitEl.addEventListener("click", select);
-
+// Function that works with the radio buttons to enable and disable the input fields and buttons for "Author" and "ISBN."
+authorEl.disabled = true;
+authorBtnEl.disabled = true;
+isbnEl.disabled = true;
+isbnBtnEl.disabled = true;
 function select (){
   var selected = document.querySelector('input[name=criteria]:checked').value;
   console.log(selected);
   if (selected === "isbn"){
-    document.getElementById("author-name").disabled = true;
-    document.getElementById("isbn").disabled = false;
-  }
-  if (selected === "author"){
-    document.getElementById("isbn").disabled = true;
-    document.getElementById("author-name").disabled = false;
-  }
-}
-
-
-function select (){
-  var selected = document.querySelector('input[name=criteria]:checked').value;
-  console.log(selected);
-  if (selected === "isbn"){
-    document.getElementById("author-name").disabled = true;
-    document.getElementById("isbn").disabled = false;
+    authorEl.disabled = true;
+    authorBtnEl.disabled = true;
+    isbnEl.disabled = false;
+    isbnBtnEl.disabled = false;
     console.log(authorEl);
   }
   if (selected === "author"){
-    document.getElementById("isbn").disabled = true;
-    document.getElementById("author-name").disabled = false;
+    isbnEl.disabled = true;
+    isbnBtnEl.disabled = true;
+    authorEl.disabled = false;
+    authorBtnEl.disabled = false;
     console.log(authorEl.value);
   }
 }
-//This is old function
-/*function author_det() {
-     console.log(authorEl.value);
-     var authorURL = `https://openlibrary.org/search/authors.json?q=${authorEl.value}`
-      const encodedAuthorURL = encodeURI(authorURL);
-      fetch(encodedAuthorURL)
-      .then(function (response) {
-       if (!response.ok) {
-         throw response.json();
-      }
 
-      return response.json();
-    })
-    .then(function (locRes) {
-      // write query to page so user knows what they are viewing
-      //aResEl.textContent = locRes.search.query;
-
-      console.log(locRes);
-      var workId = locRes.docs[0].key;
-      console.log(workId);
-      getWork(workId);
-      
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+// Function that clears out the display area so that new search results display on the screen.
+function clearDisplay() {
+  bookTitle1El.innerHTML = "";
+  bookTitle2El.innerHTML = "";
+  bookTitle3El.innerHTML = "";
+  review1El.innerHTML = "";
+  review2El.innerHTML = "";
+  review3El.innerHTML = "";
+  isbn1El.innerHTML = "";
+  isbn2El.innerHTML = "";
+  isbn3El.innerHTML = "";
+  isbnImg.innerHTML = "";
 }
-*/
+
+// Function that searches for an author and displays results for the first 3 books.
 function author_det() {
+  clearDisplay();
   console.log(authorEl.value);
   var authorURL = `https://api.nytimes.com/svc/books/v3/reviews.json?author=${authorEl.value}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
    const encodedAuthorURL = encodeURI(authorURL);
@@ -150,98 +100,78 @@ function author_det() {
      review3El.setAttribute('href',data.results[2].url);
      review3El.append(data.results[2].url);
      isbn3El.append(data.results[2].isbn13[0]);
-   
    } 
-
-
  })
  .catch(function (error) {
    console.error(error);
  });
 }
 
-
-
+// Function that performs the ISBN search to display the book's cover image and adds the ISBN to the search history.
 function isbn_det(){
+  clearDisplay();
   console.log(isbnEl.value);
+  // Displays image
   var isbnValue =  isbnEl.value;
   var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
   const encodedisbnURL = encodeURI(isbnURL);
   fetch(encodedisbnURL)
   .then(function (response) {
    if (!response.ok) {
-     throw response.json();
+    throw response.json();
   }
-
-  return response.json();
-})
-.then(function (data) {
-  var nISBN = Number (isbnEl.value);
-  var coverURL = `https://covers.openlibrary.org/b/isbn/${nISBN}-L.jpg`;
-  console.log(coverURL);
-  let img = document.createElement('img');
-  img.src = coverURL;
-  displayResultEl.append(img);
-})
-.catch(function (error) {
-  console.error(error);
-});
-var intIsbn = parseInt(isbnEl.value);
-console.log(intIsbn);
-console.log(typeof(intIsbn));
-var localResultUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${intIsbn}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
-fetch(localResultUrl)
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+    var nISBN = Number (isbnEl.value);
+    var coverURL = `https://covers.openlibrary.org/b/isbn/${nISBN}-L.jpg`;
+    console.log(coverURL);
+    let img = document.createElement('img');
+    img.src = coverURL;
+    isbnImg.append(img);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+  //Adds search history
+  var intIsbn = parseInt(isbnEl.value);
+  console.log(intIsbn);
+  console.log(typeof(intIsbn));
+  var localResultUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${intIsbn}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
+  fetch(localResultUrl)
   .then(function (response) {
-   if (!response.ok) {
-     throw response.json();
+  if (!response.ok) {
+    throw response.json();
   }
+    return response.json();
+  })
+  .then(function (data) {
+  var dateIndex = "isbn-local" + Date.now().toString();
+  console.log(data); 
+  console.log(data.results[0].book_author); 
+  console.log(data.results[0].book_title); 
   
-  return response.json();
-})
-.then(function (data) {
- console.log(data); 
- console.log(data.results[0].book_author); 
- console.log(data.results[0].book_title); 
- 
-selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author}
-localStorage.setItem("isbn-local", JSON.stringify(selectObj));
-var displaySelectedISBN =  JSON.parse(localStorage.getItem('isbn-local'));
-console.log(displaySelectedISBN);
-var isbnBtn = document.createElement("div")
-isbnBtn.setAttribute("id", selectObj[isbn]);
-console.log(Object.values(selectObj)[0]);
-var buttonValue = Object.values(selectObj)[0];
-isbnBtn.innerHTML = buttonValue;
-var bookTitle = document.createElement("p");
-bookTitle.textContent = Object.values(selectObj)[1];
-isbnBtn.append(bookTitle);
-isbnFooterEl.append(isbnBtn);
-})
-
+  selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author};
+  localStorage.setItem(dateIndex, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+  var isbnSearchKey = localStorage.getItem(dateIndex, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+  var isbnFooterSearch = document.createElement("p");
+  isbnFooterSearch.innerHTML = isbnSearchKey;
+  isbnFooterEl.append(isbnFooterSearch);
+  })
 }
+
+// Displays stored book titles with ISBN's to the footer of the page
+function renderISBN() {
+  var keys = Object.keys(localStorage);
+  keys.forEach((key) => {
+    var query = localStorage.getItem(key);
+    var searchItem = document.createElement("p");
+    searchItem.innerHTML = query;
+    isbnFooterEl.append(searchItem);
+  })
+}
+renderISBN();
 
 //j%20k%20rowling
 //"OL23919A", Toni Morrison, JK Rowling, Sam Harris, Richard Dawkins
-
- /*   function getWork (workID) {
-    displayListEl.empty();
-    var workURL = `https://openlibrary.org/authors/${workID}/works.json?limit=10`
-    var ratingURL = `https://openlibrary.org/works/${workID}/ratings.json`
-    fetch(workURL)
-    .then (function (response){
-      if (response.ok){
-        return response.json();
-      }
-    })  
-    .then(function (data) {
-      console.log(data); 
-      //console.log(data.entries.length);
-      for (var i=0; i<data.entries.length; i++) {
-        displayListEl.append("<li>" + data.entries[i].title + "</li>")
-        console.log(data.entries[i].title);
-      }
-      
-    })
- 
-    
-  }*/
