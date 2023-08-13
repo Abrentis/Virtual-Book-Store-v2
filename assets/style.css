@@ -6,4 +6,24 @@
   #book-search-app {
 
     font-size: 70px;
+    color: black;
  }
+
+ .control {
+  color: black;
+ }
+
+#display-list {
+  justify-content: center;
+  text-align: center;
+  color: black;
+}
+
+#display-img {
+  justify-content: center;
+  text-align: center;
+}
+
+#isbn-footer{
+  color: black;
+}
