@@ -1,33 +1,28 @@
 .is-dark{
-  background-image: linear-gradient( hsl(204, 86%, 53%) , hsl(171, 100%, 41%)
-  );
-}
+    background-image: linear-gradient( hsl(204, 86%, 53%) , hsl(171, 100%, 41%)
+    );
+  }
 
-#book-search-app {
+  #book-search-app {
 
     font-size: 70px;
     color: rgb(36, 4, 66);;
  }
-  font-size: 70px;
-  color: black;
-}
 
-.control {
-color: black;
-}
+ .control {
+  color: rgb(36, 4, 66);;
+ }
 
 #display-list {
   justify-content: center;
   text-align: center;
-  color: black;
 }
 
-#display-isbn-search {
-justify-content: center;
-text-align: center;
-color: black;
+#display-img {
+  justify-content: center;
+  text-align: center;
 }
 
 #isbn-footer{
-  color: black;
+  color: rgb(36, 4, 66);;
 }
