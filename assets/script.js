@@ -1,9 +1,11 @@
 var authorEl = document.getElementById("author-name");
 var isbnEl = document.getElementById("isbn");
-var submitEl = document.getElementById('submit');
+var authorRadio = document.getElementById("author-criteria");
+var isbnRadio = document.getElementById("isbn-criteria");
 var authorBtnEl = document.getElementById('author-button');
 var isbnBtnEl = document.getElementById('isbn-button');
-submitEl.addEventListener("click", select);
+authorRadio.addEventListener("click", select);
+isbnRadio.addEventListener("click", select);
 authorBtnEl.addEventListener("click", author_det);
 isbnBtnEl.addEventListener("click", isbn_det);
 //Variables to display results
@@ -17,10 +19,14 @@ var isbn2El = document.getElementById('isbn2');
 var bookTitle3El = document.getElementById('book-title3');
 var review3El = document.getElementById('review3');
 var isbn3El = document.getElementById('isbn3');
-var isbnImg = document.getElementById('display-img');
+var isbnImgContainer = document.getElementById('img-container');
+var authorNameISBNEl = document.getElementById('isbn-author-display');
+var bookTitleISBNEl = document.getElementById('isbn-title-display');
+var isbnNumberISBNEl = document.getElementById('isbn-number-display');
 var isbnFooterEl = document.getElementById('isbn-footer');
 
 console.log(localStorage);
+
 
 // Function that works with the radio buttons to enable and disable the input fields and buttons for "Author" and "ISBN."
 authorEl.disabled = true;
@@ -35,7 +41,7 @@ function select (){
     authorBtnEl.disabled = true;
     isbnEl.disabled = false;
     isbnBtnEl.disabled = false;
-    console.log(authorEl);
+    authorEl.value = "";
   }
   if (selected === "author"){
     isbnEl.disabled = true;
@@ -43,11 +49,15 @@ function select (){
     authorEl.disabled = false;
     authorBtnEl.disabled = false;
     console.log(authorEl.value);
+    isbnEl.value = "";
   }
 }
 
 // Function that clears out the display area so that new search results display on the screen.
 function clearDisplay() {
+  authorNameISBNEl.innerHTML = "";
+  bookTitleISBNEl.innerHTML = "";
+  isbnNumberISBNEl.innerHTML = "";
   bookTitle1El.innerHTML = "";
   bookTitle2El.innerHTML = "";
   bookTitle3El.innerHTML = "";
@@ -57,7 +67,7 @@ function clearDisplay() {
   isbn1El.innerHTML = "";
   isbn2El.innerHTML = "";
   isbn3El.innerHTML = "";
-  isbnImg.innerHTML = "";
+  isbnImgContainer.innerHTML = "";
 }
 
 // Function that searches for an author and displays results for the first 3 books.
@@ -65,6 +75,7 @@ function author_det() {
   clearDisplay();
   console.log(authorEl.value);
   var authorURL = `https://api.nytimes.com/svc/books/v3/reviews.json?author=${authorEl.value}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
+  console.log(authorURL);
    const encodedAuthorURL = encodeURI(authorURL);
    fetch(encodedAuthorURL)
    .then(function (response) {
@@ -75,35 +86,34 @@ function author_det() {
    return response.json();
  })
  .then(function (data) {
-   for (var i=0; i<1; i=i+1) {
-    
-     console.log(data.results[0].book_title);
-     console.log(data.results[0].url);
-     console.log(data.results[0].isbn13[0]);
-     bookTitle1El.append("Book Title:  " + data.results[0].book_title);
-     isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
-     review1El.setAttribute('href',data.results[0].url);
-     review1El.append(data.results[0].url);
-     
+  console.log(data);
+  console.log(data.results[0].book_title);
+  console.log(data.results[0].url);
+  console.log(data.results[0].isbn13[0]);
+  bookTitle1El.append("Book Title:  " + data.results[0].book_title);
+  isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
+  review1El.setAttribute('href',data.results[0].url);
+  review1El.append(data.results[0].url);
+  
 
-     console.log(data.results[1].book_title);
-     console.log(data.results[1].url);
-     console.log(data.results[1].isbn13[0]);
-     bookTitle2El.append("Book Title:  " + data.results[1].book_title);
-     isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
-     review2El.setAttribute('href',data.results[1].url);
-     review2El.append(data.results[1].url);
-     
+  console.log(data.results[1].book_title);
+  console.log(data.results[1].url);
+  console.log(data.results[1].isbn13[0]);
+  bookTitle2El.append("Book Title:  " + data.results[1].book_title);
+  isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
+  review2El.setAttribute('href',data.results[1].url);
+  review2El.append(data.results[1].url);
+  
 
-     console.log(data.results[2].book_title);
-     console.log(data.results[2].url);
-     console.log(data.results[2].isbn13[0]);
-     bookTitle3El.append("Book Title:  " + data.results[2].book_title);
-     isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
-     review3El.setAttribute('href',data.results[2].url);
-     review3El.append(data.results[2].url);
+  console.log(data.results[2].book_title);
+  console.log(data.results[2].url);
+  console.log(data.results[2].isbn13[0]);
+  bookTitle3El.append("Book Title:  " + data.results[2].book_title);
+  isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
+  review3El.setAttribute('href',data.results[2].url);
+  review3El.append(data.results[2].url);
     
-   } 
+  
  })
  .catch(function (error) {
    console.error(error);
@@ -114,7 +124,7 @@ function author_det() {
 function isbn_det(){
   clearDisplay();
   console.log(isbnEl.value);
-  // Displays image
+  // Displays image and book information
   var isbnValue =  isbnEl.value;
   var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
   const encodedisbnURL = encodeURI(isbnURL);
@@ -127,12 +137,17 @@ function isbn_det(){
   })
   .then(function (data) {
     console.log(data);
+    authorNameISBNEl.append("Author: " + data.docs[0].author_name);
+    console.log(authorNameISBNEl);
+    bookTitleISBNEl.append("Book Title: " + data.docs[0].title);
+    isbnNumberISBNEl.append("ISBN: " + data.q);
     var nISBN = Number (isbnEl.value);
+    console.log(nISBN);
     var coverURL = `https://covers.openlibrary.org/b/isbn/${nISBN}-L.jpg`;
     console.log(coverURL);
     let img = document.createElement('img');
     img.src = coverURL;
-    isbnImg.append(img);
+    isbnImgContainer.append(img);
   })
   .catch(function (error) {
     console.error(error);
@@ -144,25 +159,34 @@ function isbn_det(){
   var localResultUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${intIsbn}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
   fetch(localResultUrl)
   .then(function (response) {
-  if (!response.ok) {
-    throw response.json();
-  }
+    if (!response.ok) {
+      throw response.json();
+    }
     return response.json();
   })
   .then(function (data) {
-  var dateIndex = "isbn-local" + Date.now().toString();
-  console.log(data); 
-  console.log(data.results[0].book_author); 
-  console.log(data.results[0].book_title); 
-  
-  selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author};
-  localStorage.setItem(dateIndex, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
-  var isbnSearchKey = localStorage.getItem(dateIndex, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
-  var isbnFooterSearch = document.createElement("p");
-  isbnFooterSearch.innerHTML = isbnSearchKey;
-  isbnFooterEl.append(isbnFooterSearch);
-  })
-}
+    console.log(data); 
+    console.log(data.results[0].book_author); 
+    console.log(data.results[0].book_title); 
+    
+    selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author};
+    var storageString = JSON.stringify(localStorage);
+    if (localStorage.length === 0) {
+      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnFooterSearch = document.createElement("p");
+      isbnFooterSearch.innerHTML = isbnSearchKey;
+      isbnFooterEl.append(isbnFooterSearch);
+    }
+    else if (!storageString.includes(isbnEl.value)) {
+      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnFooterSearch = document.createElement("p");
+      isbnFooterSearch.innerHTML = isbnSearchKey;
+      isbnFooterEl.append(isbnFooterSearch);
+    }
+    })
+  }
 
 // Displays stored book titles with ISBN's to the footer of the page
 function renderISBN() {
@@ -175,6 +199,3 @@ function renderISBN() {
   })
 }
 renderISBN();
-
-//j%20k%20rowling
-//"OL23919A", Toni Morrison, JK Rowling, Sam Harris, Richard Dawkins
