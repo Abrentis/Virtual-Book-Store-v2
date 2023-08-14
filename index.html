@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"/>
     <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <title>Book-Details</title>
+    <title>(My Copy)</title>
   </head>
   <body>
     <section class="section is-dark is-small">
       <div class = "columns" >
         <p class = "column is-one-quarter"><img src= "assets/images/book_cartoon.gif"></h1>
         <p  id = "book-search-app" class = "column is-half content is-large has-text-weight-bold">Book Search App</p>
-        <p class = "column is-one-quarter content is-small">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat ipsum aut soluta debitis possimus provident. Et iure numquam est earum, autem illum id vitae culpa commodi fuga. Inventore, aspernatur perferendis!</p>
+        <p class = "column is-one-quarter content is-small">Powered by Open Library and NYTimes API's</p>
       </div>
      </section> 
 
@@ -57,7 +57,12 @@
       <a target="_blank" id = review3 ></a>
       <div id = isbn3 class = "has-text-weight-semibold" ></div>
     </div>
-    <div id="display-img"></div>
+    <div id="display-isbn-search">
+      <div id = "isbn-author-display" class = "has-text-weight-bold"></div>
+      <div id = "isbn-title-display" class = "has-text-weight-bold"></div>
+      <div id = "isbn-number-display" class = "has-text-weight-bold"></div>
+      <figure id = "img-container"></figure>
+    </div>
   </section>
   <section class="section is-small 
     has-background-primary">
