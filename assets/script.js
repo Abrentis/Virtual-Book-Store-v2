@@ -1,72 +1,201 @@
-var searchBar = $("form");
-var searchURLq = "https://openlibrary.org/search.json?q=";
-var searchURLAuthor = "https://openlibrary.org/search.json?author=";
-var searchURLTitle = "https://openlibrary.org/search.json?title=";
-localStorage.clear();
+var authorEl = document.getElementById("author-name");
+var isbnEl = document.getElementById("isbn");
+var authorRadio = document.getElementById("author-criteria");
+var isbnRadio = document.getElementById("isbn-criteria");
+var authorBtnEl = document.getElementById('author-button');
+var isbnBtnEl = document.getElementById('isbn-button');
+authorRadio.addEventListener("click", select);
+isbnRadio.addEventListener("click", select);
+authorBtnEl.addEventListener("click", author_det);
+isbnBtnEl.addEventListener("click", isbn_det);
+//Variables to display results
+var displayResultEl = document.getElementById('display-result');
+var bookTitle1El = document.getElementById('book-title1');
+var review1El = document.getElementById('review1');
+var isbn1El = document.getElementById('isbn1');
+var bookTitle2El = document.getElementById('book-title2');
+var review2El = document.getElementById('review2');
+var isbn2El = document.getElementById('isbn2');
+var bookTitle3El = document.getElementById('book-title3');
+var review3El = document.getElementById('review3');
+var isbn3El = document.getElementById('isbn3');
+var isbnImgContainer = document.getElementById('img-container');
+var authorNameISBNEl = document.getElementById('isbn-author-display');
+var bookTitleISBNEl = document.getElementById('isbn-title-display');
+var isbnNumberISBNEl = document.getElementById('isbn-number-display');
+var isbnFooterEl = document.getElementById('isbn-footer');
 
-function search(event) {
-    event.preventDefault();
-    var input = $("input").val().trim();
-    var inputURLFormat = input.replace(/\s/g, "+");
-    var inputURL = searchURLGeneral + inputURLFormat;
-    fetch(inputURL)
-        .then(function (response) {
-            console.log(response.status);
-            console.log(response);
-            return response.json();
-        })
-        .then(function (data) {
-            for (var i = 0; i < data.docs.length; i++) {
-            localStorage.setItem("book" + i, data.docs[i].title);
-            }
-            console.log(localStorage);
-            console.log(data);
-        });
+console.log(localStorage);
+
+
+// Function that works with the radio buttons to enable and disable the input fields and buttons for "Author" and "ISBN."
+authorEl.disabled = true;
+authorBtnEl.disabled = true;
+isbnEl.disabled = true;
+isbnBtnEl.disabled = true;
+function select (){
+  var selected = document.querySelector('input[name=criteria]:checked').value;
+  console.log(selected);
+  if (selected === "isbn"){
+    authorEl.disabled = true;
+    authorBtnEl.disabled = true;
+    isbnEl.disabled = false;
+    isbnBtnEl.disabled = false;
+    authorEl.value = "";
+  }
+  if (selected === "author"){
+    isbnEl.disabled = true;
+    isbnBtnEl.disabled = true;
+    authorEl.disabled = false;
+    authorBtnEl.disabled = false;
+    console.log(authorEl.value);
+    isbnEl.value = "";
+  }
 }
-searchBar.on("submit", search);
 
+// Function that clears out the display area so that new search results display on the screen.
+function clearDisplay() {
+  authorNameISBNEl.innerHTML = "";
+  bookTitleISBNEl.innerHTML = "";
+  isbnNumberISBNEl.innerHTML = "";
+  bookTitle1El.innerHTML = "";
+  bookTitle2El.innerHTML = "";
+  bookTitle3El.innerHTML = "";
+  review1El.innerHTML = "";
+  review2El.innerHTML = "";
+  review3El.innerHTML = "";
+  isbn1El.innerHTML = "";
+  isbn2El.innerHTML = "";
+  isbn3El.innerHTML = "";
+  isbnImgContainer.innerHTML = "";
+}
 
-function initDropdowns() {
-  var $document = $(document);
+// Function that searches for an author and displays results for the first 3 books.
+function author_det() {
+  clearDisplay();
+  console.log(authorEl.value);
+  var authorURL = `https://api.nytimes.com/svc/books/v3/reviews.json?author=${authorEl.value}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
+  console.log(authorURL);
+   const encodedAuthorURL = encodeURI(authorURL);
+   fetch(encodedAuthorURL)
+   .then(function (response) {
+    if (!response.ok) {
+      throw response.json();
+   }
 
-  /**
-   * hide dropdown menu if user clicks away from dropdown
-  */
-  $document.on('click', function () {
-    $(".dropdown.is-active").removeClass("is-active");
-  });
+   return response.json();
+ })
+ .then(function (data) {
+  console.log(data);
+  console.log(data.results[0].book_title);
+  console.log(data.results[0].url);
+  console.log(data.results[0].isbn13[0]);
+  bookTitle1El.append("Book Title:  " + data.results[0].book_title);
+  isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
+  review1El.setAttribute('href',data.results[0].url);
+  review1El.append(data.results[0].url);
   
-  /**
-   * show and hide dropdown menu on clicked button
-   */
-  $document.on('click', ".dropdown .button", function (event) {
-    event.stopPropagation();
-    $(event.target).closest(".dropdown").toggleClass('is-active');
-  });
+
+  console.log(data.results[1].book_title);
+  console.log(data.results[1].url);
+  console.log(data.results[1].isbn13[0]);
+  bookTitle2El.append("Book Title:  " + data.results[1].book_title);
+  isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
+  review2El.setAttribute('href',data.results[1].url);
+  review2El.append(data.results[1].url);
+  
+
+  console.log(data.results[2].book_title);
+  console.log(data.results[2].url);
+  console.log(data.results[2].isbn13[0]);
+  bookTitle3El.append("Book Title:  " + data.results[2].book_title);
+  isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
+  review3El.setAttribute('href',data.results[2].url);
+  review3El.append(data.results[2].url);
+    
+  
+ })
+ .catch(function (error) {
+   console.error(error);
+ });
 }
 
-/**
- * jQuery ready wrapper waits for the document to emit the DOMContentLoaded event.
- * This ensures your html exists on the DOM before querying for your elements.
- * Also prevents your variables from being accessed in the global scope.
- * 
- * All of your code could live inside that ready callback function.
- */
-$(document).ready(function () {
-  var $dropdownItems = $(".dropdown-item");
-
-  initDropdowns();
-
-
-  /**
-   * change active dropdown item
-   * removes the 'is-active' class from any active sibling element
-   * adds 'is-active' to the clicked dropdown item
-   */
-  $dropdownItems.on("click", function (event) {
-    console.log(event.target);
-    var $item = $(event.target);
-    $item.siblings().removeClass("is-active");
-    $item.addClass("is-active");
+// Function that performs the ISBN search to display the book's cover image and adds the ISBN to the search history.
+function isbn_det(){
+  clearDisplay();
+  console.log(isbnEl.value);
+  // Displays image and book information
+  var isbnValue =  isbnEl.value;
+  var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
+  const encodedisbnURL = encodeURI(isbnURL);
+  fetch(encodedisbnURL)
+  .then(function (response) {
+   if (!response.ok) {
+    throw response.json();
+  }
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+    authorNameISBNEl.append("Author: " + data.docs[0].author_name);
+    console.log(authorNameISBNEl);
+    bookTitleISBNEl.append("Book Title: " + data.docs[0].title);
+    isbnNumberISBNEl.append("ISBN: " + data.q);
+    var nISBN = Number (isbnEl.value);
+    console.log(nISBN);
+    var coverURL = `https://covers.openlibrary.org/b/isbn/${nISBN}-L.jpg`;
+    console.log(coverURL);
+    let img = document.createElement('img');
+    img.src = coverURL;
+    isbnImgContainer.append(img);
+  })
+  .catch(function (error) {
+    console.error(error);
   });
-})
+  //Adds search history
+  var intIsbn = parseInt(isbnEl.value);
+  console.log(intIsbn);
+  console.log(typeof(intIsbn));
+  var localResultUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${intIsbn}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
+  fetch(localResultUrl)
+  .then(function (response) {
+    if (!response.ok) {
+      throw response.json();
+    }
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data); 
+    console.log(data.results[0].book_author); 
+    console.log(data.results[0].book_title); 
+    
+    selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author};
+    var storageString = JSON.stringify(localStorage);
+    if (localStorage.length === 0) {
+      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnFooterSearch = document.createElement("p");
+      isbnFooterSearch.innerHTML = isbnSearchKey;
+      isbnFooterEl.append(isbnFooterSearch);
+    }
+    else if (!storageString.includes(isbnEl.value)) {
+      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      var isbnFooterSearch = document.createElement("p");
+      isbnFooterSearch.innerHTML = isbnSearchKey;
+      isbnFooterEl.append(isbnFooterSearch);
+    }
+    })
+  }
+
+// Displays stored book titles with ISBN's to the footer of the page
+function renderISBN() {
+  var keys = Object.keys(localStorage);
+  keys.forEach((key) => {
+    var query = localStorage.getItem(key);
+    var searchItem = document.createElement("p");
+    searchItem.innerHTML = query;
+    isbnFooterEl.append(searchItem);
+  })
+}
+renderISBN();
