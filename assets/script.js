@@ -24,7 +24,7 @@ var authorNameISBNEl = document.getElementById('isbn-author-display');
 var bookTitleISBNEl = document.getElementById('isbn-title-display');
 var isbnNumberISBNEl = document.getElementById('isbn-number-display');
 var isbnFooterEl = document.getElementById('isbn-footer');
-
+var errorMessageEl = document.getElementById('error-message');
 console.log(localStorage);
 
 
@@ -68,6 +68,7 @@ function clearDisplay() {
   isbn2El.innerHTML = "";
   isbn3El.innerHTML = "";
   isbnImgContainer.innerHTML = "";
+  errorMessageEl.innerHTML = "";
 }
 
 // Function that searches for an author and displays results for the first 3 books.
@@ -117,6 +118,9 @@ function author_det() {
  })
  .catch(function (error) {
    console.error(error);
+   errorMessageEl.innerHTML = "Author not Found. Please verify the author's full name";
+   errorMessageEl.classList.add("has-text-danger");
+   errorMessageEl.classList.add("is-size-3");
  });
 }
 
@@ -124,6 +128,7 @@ function author_det() {
 function isbn_det(){
   clearDisplay();
   console.log(isbnEl.value);
+  
   // Displays image and book information
   var isbnValue =  isbnEl.value;
   var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
