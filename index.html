@@ -25,14 +25,13 @@
           <div class="control">
             <p><b>Choose Criteria:</b></p>
             <label class="radio">
-              <input type="radio" id = "a" name="criteria" value = "author">
+              <input type="radio" id = "author-criteria" name="criteria" value = "author">
               Author
             </label>
             <label class="radio">
-              <input type="radio" id = "i" name="criteria" value = "isbn">
+              <input type="radio" id = "isbn-criteria" name="criteria" value = "isbn">
               ISBN
             </label>
-            <button id="submit">Submit</button>
           </div>
           <div class = "column"><input id = "author-name" type="text" class="input is-primary" placeholder="author's name" >
             <button id="author-button">Get Author</button>
@@ -62,7 +61,7 @@
   </section>
   <section class="section is-small 
     has-background-primary">
-    <div id="isbn-footer">Recent searches:</div>
+    <div id="isbn-footer">Recent ISBN searches:</div>
   </section>
 
     <script src="./assets/script.js"></script>

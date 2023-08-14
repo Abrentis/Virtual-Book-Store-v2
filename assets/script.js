@@ -1,9 +1,11 @@
 var authorEl = document.getElementById("author-name");
 var isbnEl = document.getElementById("isbn");
-var submitEl = document.getElementById('submit');
+var authorRadio = document.getElementById("author-criteria");
+var isbnRadio = document.getElementById("isbn-criteria");
 var authorBtnEl = document.getElementById('author-button');
 var isbnBtnEl = document.getElementById('isbn-button');
-submitEl.addEventListener("click", select);
+authorRadio.addEventListener("click", select);
+isbnRadio.addEventListener("click", select);
 authorBtnEl.addEventListener("click", author_det);
 isbnBtnEl.addEventListener("click", isbn_det);
 //Variables to display results
