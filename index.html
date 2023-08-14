@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"/>
     <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <title>(My Copy)</title>
+    <title>Book Search</title>
   </head>
   <body>
     <section class="section is-dark is-small">
       <div class = "columns" >
         <p class = "column is-one-quarter"><img src= "assets/images/book_cartoon.gif"></h1>
-        <p  id = "book-search-app" class = "column is-half content is-large has-text-weight-bold">Book Search App</p>
+        <p  id = "book-search-app" class = "column is-half content is-large has-text-weight-bold">Book Search Application</p>
         <p class = "column is-one-quarter content is-small">Powered by Open Library and NYTimes API's</p>
       </div>
      </section> 
@@ -45,6 +45,7 @@
   <section id="display-result" class="section is-medium 
     has-background-warning columns">
     <div id="display-list">
+      <div id = "error-message"></div>
       <div id = "book-title1" class = "has-text-weight-bold"></div>
       <a target="_blank" id = review1></a>
       <div id = isbn1 class = "has-text-weight-semibold"></div>
@@ -54,6 +55,7 @@
       <div id = isbn2 class = "has-text-weight-semibold"></div>
       <br>
       <div id = "book-title3" class = "has-text-weight-bold"></div>
+      <div id = "reviewTitle"></div>
       <a target="_blank" id = review3 ></a>
       <div id = isbn3 class = "has-text-weight-semibold" ></div>
     </div>
