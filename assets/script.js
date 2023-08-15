@@ -118,9 +118,9 @@ function author_det() {
  })
  .catch(function (error) {
    console.error(error);
-   errorMessageEl.innerHTML = "Author not Found. Please verify the author's full name";
-   errorMessageEl.classList.add("has-text-danger");
-   errorMessageEl.classList.add("is-size-3");
+   //errorMessageEl.innerHTML = "Author not Found. Please verify the author's full name";
+   //errorMessageEl.classList.add("has-text-danger");
+   //errorMessageEl.classList.add("is-size-3");
  });
 }
 
