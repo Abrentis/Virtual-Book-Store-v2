@@ -1,19 +1,18 @@
 .is-dark{
-    background-image: linear-gradient( hsl(204, 86%, 53%) , hsl(171, 100%, 41%)
-    );
-  }
+  background-image: linear-gradient(hsl(204, 86%, 53%) , hsl(171, 100%, 41%));
+}
 
-  #book-search-app {
-    text-align: center;
-    justify-content: center;
-    font-size: 50px;
-    color: rgb(36, 4, 66);;
-    padding-top: 50px;
- }
-
- .control {
+#book-search-app {
+  text-align: center;
+  justify-content: center;
+  font-size: 50px;
   color: rgb(36, 4, 66);;
- }
+  padding-top: 50px;
+}
+
+.control {
+  color: rgb(36, 4, 66);;
+}
 
 #display-list {
   justify-content: center;
@@ -30,7 +29,7 @@
 }
 
 #display-result {
-   justify-content: center;
+  justify-content: center;
 }
 
 #book-title1,#book-title2, #book-title3 {

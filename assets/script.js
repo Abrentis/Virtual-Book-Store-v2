@@ -88,39 +88,36 @@ function author_det() {
  })
  .then(function (data) {
   console.log(data);
-  console.log(data.results[0].book_title);
-  console.log(data.results[0].url);
-  console.log(data.results[0].isbn13[0]);
-  bookTitle1El.append("Book Title:  " + data.results[0].book_title);
-  isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
-  review1El.setAttribute('href',data.results[0].url);
-  review1El.append(data.results[0].url);
-  
 
-  console.log(data.results[1].book_title);
-  console.log(data.results[1].url);
-  console.log(data.results[1].isbn13[0]);
-  bookTitle2El.append("Book Title:  " + data.results[1].book_title);
-  isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
-  review2El.setAttribute('href',data.results[1].url);
-  review2El.append(data.results[1].url);
-  
+  if (data.results[0] !== undefined) {
+    bookTitle1El.append("Book Title:  " + data.results[0].book_title);
+    isbn1El.append("ISBN: " + data.results[0].isbn13[0]);
+    review1El.setAttribute('href',data.results[0].url);
+    review1El.append(data.results[0].url);
+  }
+  else {
+   errorMessageEl.innerHTML = "Author not Found. Please verify the author's full name";
+   errorMessageEl.classList.add("has-text-danger");
+   errorMessageEl.classList.add("is-size-3");
+  }
 
-  console.log(data.results[2].book_title);
-  console.log(data.results[2].url);
-  console.log(data.results[2].isbn13[0]);
-  bookTitle3El.append("Book Title:  " + data.results[2].book_title);
-  isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
-  review3El.setAttribute('href',data.results[2].url);
-  review3El.append(data.results[2].url);
-    
-  
+  if (data.results[1] !== undefined) {
+    bookTitle2El.append("Book Title:  " + data.results[1].book_title);
+    isbn2El.append("ISBN: " + data.results[1].isbn13[0]);
+    review2El.setAttribute('href',data.results[1].url);
+    review2El.append(data.results[1].url);
+  }
+
+  if (data.results[2] !== undefined) {
+    isbn3El.append("ISBN: " + data.results[2].isbn13[0]);
+    bookTitle3El.append("Book Title:  " + data.results[2].book_title);
+    review3El.setAttribute('href',data.results[2].url);
+    review3El.append(data.results[2].url);
+  }
  })
+
  .catch(function (error) {
    console.error(error);
-   //errorMessageEl.innerHTML = "Author not Found. Please verify the author's full name";
-   //errorMessageEl.classList.add("has-text-danger");
-   //errorMessageEl.classList.add("is-size-3");
  });
 }
 
@@ -128,7 +125,6 @@ function author_det() {
 function isbn_det(){
   clearDisplay();
   console.log(isbnEl.value);
-  
   // Displays image and book information
   var isbnValue =  isbnEl.value;
   var isbnURL = `https://openlibrary.org/search.json?q=${isbnEl.value}`
@@ -146,52 +142,34 @@ function isbn_det(){
     console.log(authorNameISBNEl);
     bookTitleISBNEl.append("Book Title: " + data.docs[0].title);
     isbnNumberISBNEl.append("ISBN: " + data.q);
-    var nISBN = Number (isbnEl.value);
+    var nISBN = Number (isbnValue);
     console.log(nISBN);
     var coverURL = `https://covers.openlibrary.org/b/isbn/${nISBN}-L.jpg`;
     console.log(coverURL);
     let img = document.createElement('img');
     img.src = coverURL;
     isbnImgContainer.append(img);
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
-  //Adds search history
-  var intIsbn = parseInt(isbnEl.value);
-  console.log(intIsbn);
-  console.log(typeof(intIsbn));
-  var localResultUrl = `https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${intIsbn}&api-key=lOcvPik3JyP8fGFQLOa6ZMb5qa0buQUQ`
-  fetch(localResultUrl)
-  .then(function (response) {
-    if (!response.ok) {
-      throw response.json();
-    }
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data); 
-    console.log(data.results[0].book_author); 
-    console.log(data.results[0].book_title); 
-    
-    selectObj = {isbn: isbnValue, BookTitle: data.results[0].book_title, Author: data.results[0].book_author};
+    // Adds search history
     var storageString = JSON.stringify(localStorage);
     if (localStorage.length === 0) {
-      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
-      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+      localStorage.setItem(isbnValue, data.docs[0].title + ": " + data.q);
+      var isbnSearchKey = localStorage.getItem(isbnValue, data.docs[0].title + ": " + data.q);
       var isbnFooterSearch = document.createElement("p");
       isbnFooterSearch.innerHTML = isbnSearchKey;
       isbnFooterEl.append(isbnFooterSearch);
     }
-    else if (!storageString.includes(isbnEl.value)) {
-      localStorage.setItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
-      var isbnSearchKey = localStorage.getItem(isbnEl.value, Object.values(selectObj)[1] + ": " + Object.values(selectObj)[0]);
+    else if (!storageString.includes(isbnValue)) {
+      localStorage.setItem(isbnValue, data.docs[0].title + ": " + data.q);
+      var isbnSearchKey = localStorage.getItem(isbnValue, data.docs[0].title + ": " + data.q);
       var isbnFooterSearch = document.createElement("p");
       isbnFooterSearch.innerHTML = isbnSearchKey;
       isbnFooterEl.append(isbnFooterSearch);
-    }
+      }
     })
-  }
+  .catch(function (error) {
+    console.error(error);
+  })
+}
 
 // Displays stored book titles with ISBN's to the footer of the page
 function renderISBN() {
