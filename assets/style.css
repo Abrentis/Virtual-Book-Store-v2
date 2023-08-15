@@ -26,9 +26,28 @@
 }
 
 #isbn-footer{
-  color: rgb(36, 4, 66);;
+  color: rgb(36, 4, 66);
 }
 
 #display-result {
    justify-content: center;
+}
+
+#book-title1,#book-title2, #book-title3 {
+  font-family: Cursive;
+  font-size: 30px;
+  color: darkgreen;
+  text-decoration: underline;
+}
+
+#isbn-author-display, #isbn-title-display, #isbn-number-display{
+  color: darkgreen;
+}
+
+#isbn1, #isbn2, #isbn3{
+  color: darkgreen;
+}
+
+#isbn-footer {
+  color: rgb(36, 4, 66);
 }
