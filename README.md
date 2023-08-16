@@ -10,8 +10,8 @@ Browser to open the application: https://abrentis.github.io/Virtual-Book-Store-v
 
 App looks like below picture:
 
+![book-search](/assets/images/application.JPG)
 
-![Getting Started](application.JPG)
 
 ## Credits
 
